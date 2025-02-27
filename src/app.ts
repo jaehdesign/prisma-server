@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import createDebug from 'debug';
 import { resolve } from 'path';
 import morgan from 'morgan';
@@ -11,6 +11,11 @@ import {
 } from './controllers/base.controller.js';
 
 import { errorManager } from './controllers/errors.controller.js';
+import { AppResponse } from './types/app-response.js';
+import { Film } from '@prisma/client';
+import { FilmRepo } from './repo/films.repository.js';
+import { Repository } from './repo/repository.type.js';
+import { FilmsController } from './controllers/films.controllers.js';
 
 // import { createProductsRouter } from './routers/products.router.js';
 // import { HomePage } from './views/pages/home-page.js';
@@ -41,31 +46,63 @@ export const createApp = () => {
 
     // Routes
 
-    // const homeView = new HomePage();
-    // const homeController = new HomeController(homeView);
-    // app.get('/', homeController.getPage);
+    const repoFilms: Repository<Film> = new FilmRepo();
 
-    // let animalModel: Repository<Animal>;
-    // switch (process.env.REPO as 'file' | 'sqlite' | 'mysql' | 'prisma') {
-    //     case 'sqlite':
-    //         animalModel = new AnimalSqliteRepo();
-    //         break;
-    //     case 'mysql':
-    //         animalModel = new AnimalMySqlRepo();
-    //         break;
-    //     case 'prisma':
-    //         animalModel = new AnimalPrismaRepo();
-    //         break;
-    //     case 'file':
-    //         animalModel = new AnimalFileRepo();
-    //         break;
-    //     default:
-    //         throw new Error('Invalid repository');
-    // }
+    const filmsController = new FilmsController(repoFilms);
 
-    // const productsController = new ProductsController(animalModel);
+    app.use('/api/films', filmsRouter);
 
-    // app.use('/products', createProductsRouter(productsController));
+    app.get('/api/films', filmsController.getAll);
+    app.get('/api/films/:id', async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const film = await repoFilms.readById(id);
+
+        const data: AppResponse<Film> = {
+            results: [film],
+
+            error: '',
+        };
+        res.json({ data });
+    });
+    app.post(
+        '/api/films',
+        async (req: Request, res: Response, next: NextFunction) => {
+            const newData = req.body;
+
+            try {
+                const film = await repoFilms.create(newData);
+                const data: AppResponse<Film> = {
+                    results: [film],
+                    error: '',
+                };
+                res.json({ data });
+            } catch (error) {
+                next(error);
+            }
+        },
+    );
+    app.patch('/api/films/:id', async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const newData = req.body;
+
+        const film = await repoFilms.update(id, newData);
+        const data: AppResponse<Film> = {
+            results: [film],
+
+            error: '',
+        };
+        res.json({ data });
+    });
+    app.delete('/api/films/:id', async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const film = await repoFilms.delete(id);
+        const data: AppResponse<Film> = {
+            results: [film],
+
+            error: '',
+        };
+        res.json({ data });
+    });
 
     app.get('*', notFoundController); // Daría error 404
     app.use('*', notMethodController); // Daría error 405
