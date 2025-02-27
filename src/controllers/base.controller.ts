@@ -1,13 +1,13 @@
 import type { NextFunction, Request, Response } from 'express';
 import createDebug from 'debug';
-import { HttpError } from '../errors/http-error.js';
+import { HttpError } from '../types/http-error.js';
 
 export const notFoundController = (
     req: Request,
     _res: Response,
     next: NextFunction,
 ) => {
-    const debug = createDebug('demo:notFoundController');
+    const debug = createDebug('films:notFoundController');
     debug('Petición recibida');
 
     const message = `Page ${req.url} not found`;
@@ -20,7 +20,7 @@ export const notMethodController = (
     _res: Response,
     next: NextFunction,
 ) => {
-    const debug = createDebug('demo:notMethodController');
+    const debug = createDebug('films:notMethodController');
     debug('Petición recibida');
 
     const message = `Method ${req.method}  not allowed`;

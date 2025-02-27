@@ -28,6 +28,6 @@ La estructura inicial, tomada de dicho proyecto incluye en src:
 - `server/error-manager.ts`
 - `server/listen-manager.ts`
 - `middleware/debug-logger.ts`
-- `errors/http-error.ts`
+- `types/http-error.ts`
 - `controllers/base.controller.ts`
 - `controllers/errors.controller.ts`

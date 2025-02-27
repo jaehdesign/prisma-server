@@ -67,8 +67,8 @@ export const createApp = () => {
 
     // app.use('/products', createProductsRouter(productsController));
 
-    app.get('*', notFoundController);
-    app.use('*', notMethodController);
+    app.get('*', notFoundController); // Daría error 404
+    app.use('*', notMethodController); // Daría error 405
 
     app.use(errorManager);
 
