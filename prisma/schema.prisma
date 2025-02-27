@@ -29,3 +29,13 @@ model Film {
 @@unique([title, releaseYear])
 @@index([title])
 }
+
+model User {
+    id String @id @default(uuid()) @map("user_id")
+    email String
+    password String
+    name String
+    createdAt DateTime @default(now())
+    updateAt DateTime @updatedAt 
+
+}
