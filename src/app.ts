@@ -4,19 +4,20 @@ import { resolve } from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import { Film } from '@prisma/client';
 import { debugLogger } from './middleware/debug-logger.js';
 import {
     notFoundController,
     notMethodController,
 } from './controllers/base.controller.js';
-
 import { errorManager } from './controllers/errors.controller.js';
-
 import { createFilmsRouter } from './router/films.router.js';
-import { Repository } from './repo/repository.type.js';
-import { Film } from '@prisma/client';
+import { createUsersRouter } from './router/users.router.js';
+import type { Repository } from './repo/repository.type.js';
+import { UsersRepo } from './repo/users.repository.js';
 import { FilmRepo } from './repo/films.repository.js';
 import { FilmsController } from './controllers/films.controllers.js';
+import { UsersController } from './controllers/users.controller.js';
 
 // import { createProductsRouter } from './routers/products.router.js';
 // import { HomePage } from './views/pages/home-page.js';
@@ -49,8 +50,13 @@ export const createApp = () => {
     const filmsController = new FilmsController(repoFilms);
     const filmsRouter = createFilmsRouter(filmsController);
 
+    const repoUsers = new UsersRepo();
+    const usersController = new UsersController(repoUsers);
+    const usersRouter = createUsersRouter(usersController);
+
     // Routes registry
     app.use('/api/films', filmsRouter);
+    app.use('/api/users', usersRouter);
 
     app.get('*', notFoundController); // 404
     app.use('*', notMethodController); // 405

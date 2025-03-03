@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { FilmsController } from '../controllers/films.controllers';
+import { FilmsController } from '../controllers/films.controllers.js';
 import createDebug from 'debug';
 const debug = createDebug('films:router:films');
 
