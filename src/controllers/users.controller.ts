@@ -4,10 +4,11 @@ import type { AppResponse } from '../types/app-response';
 import { UsersRepo, UserWithoutPasswd } from '../repo/users.repository.js';
 import { AuthService } from '../services/auth.service.js';
 import { HttpError } from '../types/http-error.js';
+import { UserCreateDTO } from '../dto/users.dto.js';
 const debug = createDebug('films:controllers:users');
 
 export class UsersController {
-    constructor(private repoFilms: UsersRepo) {
+    constructor(private repoUsers: UsersRepo) {
         debug('Instanciando');
     }
 
@@ -23,8 +24,9 @@ export class UsersController {
         debug('create');
         try {
             const newData = req.body;
+            UserCreateDTO.parse(newData);
             newData.password = await AuthService.hashPassword(newData.password);
-            const user = await this.repoFilms.create(newData);
+            const user = await this.repoUsers.create(newData);
             res.json(this.makeResponse([user]));
         } catch (error) {
             next(error);
@@ -41,7 +43,7 @@ export class UsersController {
         try {
             const { email, password: clientPassword } = req.body;
 
-            const user = await this.repoFilms.getByEmail(email);
+            const user = await this.repoUsers.getByEmail(email);
             if (user === null) {
                 throw error;
             }

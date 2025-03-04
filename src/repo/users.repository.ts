@@ -12,7 +12,7 @@ export class UsersRepo {
     }
 
     async getByEmail(email: string): Promise<User | null> {
-        debug('Getting user by email');
+        debug('Getting user by email', email);
         const user = await this.prisma.user.findUnique({
             where: {
                 email,
