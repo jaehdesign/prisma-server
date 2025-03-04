@@ -8,8 +8,8 @@ export const createUsersRouter = (usersController: UsersController) => {
     const usersRouter = Router();
     //usersRouter.get('/', usersController.getAll);
     //usersRouter.get('/:id', usersController.getById);
-    usersRouter.post('/register', usersController.create);
-    usersRouter.post('/login', usersController.login);
+    usersRouter.post('/register', usersController.create.bind(usersController));
+    usersRouter.post('/login', usersController.login.bind(usersController));
     //usersRouter.patch('/:id', usersController.update);
     //usersRouter.delete('/:id', usersController.delete);
     return usersRouter;
