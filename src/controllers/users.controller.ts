@@ -78,13 +78,17 @@ export class UsersController {
                 role: userWithoutPasswd.role,
             });
 
-            const response = {
-                ...userWithoutPasswd,
+            const results = {
                 token,
             };
 
             res.cookie('token', token);
-            res.json(this.makeResponse([response]));
+            res.json([
+                {
+                    results,
+                    error: '',
+                },
+            ]);
         } catch (error) {
             next(error);
         }

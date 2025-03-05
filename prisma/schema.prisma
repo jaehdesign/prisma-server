@@ -82,6 +82,8 @@ model Profile {
 model Notes {
   id      String  @id @default(uuid()) @map("note_id")
   content String
+  createdAt DateTime @default(now()) @ignore
+  updatedAt DateTime @updatedAt @ignore
   user    User   @relation(fields: [userId], references: [id])
   userId  String @map("user_id")
 

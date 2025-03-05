@@ -19,6 +19,7 @@ import { FilmRepo } from './repo/films.repository.js';
 import { FilmsController } from './controllers/films.controllers.js';
 import { UsersController } from './controllers/users.controller.js';
 import { AuthInterceptor } from './middleware/auth.interceptor.js';
+// import session from 'express-session';
 
 // import { createProductsRouter } from './routers/products.router.js';
 // import { HomePage } from './views/pages/home-page.js';
@@ -44,6 +45,12 @@ export const createApp = () => {
     }
     app.use(express.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+    // app.use(
+    //     session({
+    //         secret: '',
+    //     }),
+    // );
+
     app.use(debugLogger('debug-logger'));
     app.use(express.static(publicPath));
 
