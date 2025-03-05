@@ -6,7 +6,7 @@ const SALTS = 10;
 interface Payload extends JwtPayload {
     id: string;
     email: string;
-    // role: string;
+    role: string;
 }
 
 export class AuthService {

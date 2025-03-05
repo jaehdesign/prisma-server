@@ -75,6 +75,7 @@ export class UsersController {
             const token = await AuthService.generateToken({
                 id: userWithoutPasswd.id,
                 email: userWithoutPasswd.email,
+                role: userWithoutPasswd.role,
             });
 
             const response = {

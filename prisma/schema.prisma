@@ -50,6 +50,7 @@ model User {
   password   String
   firstName  String   @map("first_name")
   lastName   String   @map("last_name")
+  role Role @default(USER)
   createdAt  DateTime @default(now()) @ignore
   updateAt   DateTime @updatedAt @ignore
 
@@ -58,6 +59,12 @@ model User {
 
   @@index([email])
   @@map("users")
+}
+
+enum Role {
+    USER
+    EDITOR
+    ADMIN
 }
 
 model Profile {

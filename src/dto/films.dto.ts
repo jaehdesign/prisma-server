@@ -13,7 +13,7 @@ export const FilmCreateDTO = z.object({
     director: z.string().nonempty(),
     duration: z.number().int().positive(),
     poster: z.string().url(),
-    categories: z.array(z.string()).optional(),
+    // categories: z.array(z.string()).optional(),
 }) satisfies z.Schema<Prisma.FilmCreateInput>;
 
 // extract the inferred type
