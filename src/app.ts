@@ -53,7 +53,7 @@ export const createApp = () => {
 
     app.use(debugLogger('debug-logger'));
     app.use(express.static(publicPath));
-
+    // Todos estos "use" se están registrando en la request
     const authInterceptor = new AuthInterceptor();
     const repoFilms: Repository<Film> = new FilmRepo();
     const filmsController = new FilmsController(repoFilms);
