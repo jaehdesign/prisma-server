@@ -3,7 +3,7 @@ import type { Repository } from './repository.type.js';
 import { PrismaClient } from '@prisma/client';
 import { Film } from '@prisma/client';
 
-const debug = createDebug('films:repository:films');
+const debug = createDebug('movies:repository:films');
 
 export class FilmRepo implements Repository<Film> {
     prisma: PrismaClient;

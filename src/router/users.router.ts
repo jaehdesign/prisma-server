@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import createDebug from 'debug';
 import { UsersController } from '../controllers/users.controller';
-const debug = createDebug('films:router:users');
+const debug = createDebug('movies:router:users');
 
 export const createUsersRouter = (usersController: UsersController) => {
     debug('Ejecutando createFilmsRouter');

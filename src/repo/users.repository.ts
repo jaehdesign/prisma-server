@@ -1,6 +1,6 @@
 import createDebug from 'debug';
 import { PrismaClient, User } from '@prisma/client';
-const debug = createDebug('films:repository:users');
+const debug = createDebug('movies:repository:users');
 
 export type UserWithoutPasswd = Omit<User, 'password'>;
 

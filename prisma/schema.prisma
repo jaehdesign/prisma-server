@@ -25,7 +25,9 @@ model Film {
   createdAt   DateTime @default(now()) @ignore
   updatedAt   DateTime @updatedAt @ignore
 
-    categories Categories[]
+  categories Categories[]
+
+  userRevisors Review[]
 
   @@unique([title, releaseYear])
   @@index([title])
@@ -33,59 +35,75 @@ model Film {
 }
 
 model Categories {
-    id String @id @default(uuid()) @map("category_id")
-    name  String
-    createdAt   DateTime @default(now()) @ignore
-  updatedAt   DateTime @updatedAt @ignore
+  id        String   @id @default(uuid()) @map("category_id")
+  name      String
+  createdAt DateTime @default(now()) @ignore
+  updatedAt DateTime @updatedAt @ignore
 
   films Film[]
-  
-@@map("categories")
+
+  @@map("categories")
+}
+
+model Review {
+  id         String @id @default(uuid()) @map("review_id")
+  filmId     String @map("film_id")
+  userId     String @map("user_id")
+  film       Film   @relation(fields: [filmId], references: [id])
+  user       User   @relation(fields: [userId], references: [id])
+  content    String
+  userRating Int    @default(0) @map("rating")
+
+  @@unique([filmId, userId])
+  @@map("review_user_film")
 }
 
 model User {
-  id         String   @id @default(uuid()) @map("user_id")
-  email      String   @unique
-  handleName String?  @map("handle_name")
+  id         String  @id @default(uuid()) @map("user_id")
+  email      String  @unique
+  handleName String? @map("handle_name")
   password   String
-  firstName  String   @map("first_name")
-  lastName   String   @map("last_name")
-  role Role @default(USER)
-  createdAt  DateTime @default(now()) @ignore
-  updateAt   DateTime @updatedAt @ignore
+  firstName  String  @map("first_name")
+  lastName   String  @map("last_name")
 
-  notes Notes[]
-  profile Profile[]
+  role      Role     @default(USER)
+  createdAt DateTime @default(now()) @ignore
+  updatedAt DateTime @updatedAt @ignore
+
+  notes   Notes[]
+  profile Profile?
+
+  filmRevised Review[]
 
   @@index([email])
   @@map("users")
 }
 
 enum Role {
-    USER
-    EDITOR
-    ADMIN
+  USER
+  EDITOR
+  ADMIN
 }
 
 model Profile {
-    id String @id @default(uuid()) @map("profile_id")
-    bio String
-    createdAt  DateTime @default(now()) @ignore
-    updateAt   DateTime @updatedAt @ignore
+  id        String   @id @default(uuid()) @map("profile_id")
+  bio       String
+  createdAt DateTime @default(now()) @ignore
+  updatedAt DateTime @updatedAt @ignore
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique @map("user_id")
 
-    user    User   @relation(fields: [userId], references: [id])
-    userId String @unique @map("user_id")
-
-    @@map("profiles")
+  @@map("profiles")
 }
 
 model Notes {
-  id      String  @id @default(uuid()) @map("note_id")
-  content String
+  id        String   @id @default(uuid()) @map("note_id")
+  content   String
   createdAt DateTime @default(now()) @ignore
   updatedAt DateTime @updatedAt @ignore
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String @map("user_id")
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
 
   @@map("notes")
 }
