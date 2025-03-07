@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 export const ReviewCreateDTO = z.object({
     content: z.string().min(3).nonempty(),
-    userRating: z.number().min(1).max(10),
+    userRating: z.number().min(0).max(10).optional(),
     userId: z.string(),
     filmId: z.string(),
     // film: z.object({

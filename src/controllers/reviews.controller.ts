@@ -47,7 +47,7 @@ export class ReviewsController {
             ReviewCreateDTO.parse(req.body);
 
             const newData: ReviewCreateDTO = req.body;
-            const review = await this.repoReviews.create(newData);
+            const review = await this.repoReviews.create(newData as Review);
             res.json(this.makeResponse([review]));
         } catch (error) {
             next(error);
