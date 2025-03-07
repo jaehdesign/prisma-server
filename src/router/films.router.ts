@@ -13,26 +13,24 @@ export const createFilmsRouter = (
     debug('Ejecutando createFilmsRouter');
 
     const filmsRouter = Router();
-    filmsRouter.get(
+    filmsRouter.get('/', filmsController.getAll);
+    filmsRouter.get('/:id', filmsController.getById);
+    filmsRouter.post(
         '/',
         authInterceptor.authenticate,
         authInterceptor.hasRole(Role.EDITOR),
-        filmsController.getAll,
+        filmsController.create,
     );
-    filmsRouter.get(
-        '/:id',
-        authInterceptor.authenticate,
-        filmsController.getById,
-    );
-    filmsRouter.post('/', authInterceptor.authenticate, filmsController.create);
     filmsRouter.patch(
         '/:id',
         authInterceptor.authenticate,
+        authInterceptor.hasRole(Role.EDITOR),
         filmsController.update,
     );
     filmsRouter.delete(
         '/:id',
         authInterceptor.authenticate,
+        authInterceptor.hasRole(Role.EDITOR),
         filmsController.delete,
     );
     return filmsRouter;

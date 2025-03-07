@@ -3,7 +3,6 @@ import { AuthService } from '../services/auth.service.js';
 import { HttpError } from '../types/http-error.js';
 import createDebug from 'debug';
 import { Role } from '@prisma/client';
-//  { Role } from '@prisma/client';
 
 const debug = createDebug('movies:interceptor:auth');
 
@@ -90,6 +89,6 @@ export class AuthInterceptor {
         const { id: reviewId } = req.params;
         // User -> req.user.id
         const { id: userId } = req.user;
-        // console.log(itemId, userId);
+        console.log(itemId, userId);
     };
 }

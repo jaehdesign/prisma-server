@@ -14,28 +14,29 @@ export const createReviewsRouter = (
     const reviewsRouter = Router();
     reviewsRouter.get(
         '/',
-        // authInterceptor.authenticate,
-        // authInterceptor.hasRole(Role.EDITOR),
+        authInterceptor.authenticate,
         reviewsController.getAll,
     );
     reviewsRouter.get(
         '/:id',
-        // authInterceptor.authenticate,
+        authInterceptor.authenticate,
         reviewsController.getById,
     );
     reviewsRouter.post(
         '/',
-        // authInterceptor.authenticate,
+        authInterceptor.authenticate,
         reviewsController.create,
     );
     reviewsRouter.patch(
         '/:id',
-        // authInterceptor.authenticate,
+        authInterceptor.authenticate,
+        authInterceptor.isOwnerReview,
         reviewsController.update,
     );
     reviewsRouter.delete(
         '/:id',
-        // authInterceptor.authenticate,
+        authInterceptor.authenticate,
+        authInterceptor.isOwnerReview,
         reviewsController.delete,
     );
     return reviewsRouter;
