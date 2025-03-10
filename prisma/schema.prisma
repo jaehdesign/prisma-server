@@ -25,7 +25,7 @@ model Film {
   createdAt   DateTime @default(now()) @ignore
   updatedAt   DateTime @updatedAt @ignore
 
-  categories Categories[]
+  categories Category[]
 
   userRevisors Review[]
 
@@ -34,9 +34,9 @@ model Film {
   @@map("films")
 }
 
-model Categories {
+model Category {
   id        String   @id @default(uuid()) @map("category_id")
-  name      String
+  name      String @unique
   createdAt DateTime @default(now()) @ignore
   updatedAt DateTime @updatedAt @ignore
 
