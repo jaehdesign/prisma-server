@@ -12,6 +12,42 @@
   <header>
     <h1>Api películas</h1>
   </header>
+  <section>
+    <h2>Endpioints</h2>
+
+    <h3>Películas (estilo e-comerce o administrado)</h3>
+    <ul>
+      <li><code>GET /films - Listado de películas</code></li>
+      <li><code>GET /films/:id - Detalle de una película</code></li>
+      <li><code>POST /films - Crear una película [Editor]</code></li>
+      <li><code>PATCH /films/:id` - Actualizar una película [Editor]</code></li>
+      <li><code>DELETE /films/:id` - Borrar una película / [Editor]</code></li>
+    </ul>
+
+
+
+
+    - `DELETE /films/:id` - Borrar una película / [Editor]
+
+    <h3>Usuarios</h3>
+
+    - `GET /users` - Listado de usuarios [Admin]
+    - `GET /users/:id` - Detalle de un usuario [Admin / Propio]
+    - `POST /users/register` - Crear un usuario (Registrar)
+    - `POST /users/login` - Iniciar sesión
+    - `PATCH /users/role` - Cambio de Rol [Admin]
+    - `PATCH /users/:id` - Actualizar un usuario excepto rol [Propio]
+    - `DELETE /users/:id` - Borrar un usuario / Eliminar un usuario [Admin / Propio]
+
+    <h3>Reviews (Estilo per-to-per)</h3>
+
+    - `GET /reviews` - Listado de reviews [User]
+    - `GET /reviews/:id` - Detalle de una review [User]
+    - `POST /reviews` - Crear una review [User]
+    - `PATCH /reviews/:id` - Actualizar una review [Propio]
+    - `DELETE /reviews/:id` - Borrar una review / [Propio]
+
+  </section>
 </body>
 
 </html>

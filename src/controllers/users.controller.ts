@@ -21,6 +21,30 @@ export class UsersController {
         return data;
     }
 
+    // Los métodos no son arrow functions
+    // para tener en el router un ejemplo del uso de bind
+
+    async getAll(_req: Request, res: Response, next: NextFunction) {
+        debug('getAll');
+        try {
+            const users = await this.repoUsers.read();
+            res.json(this.makeResponse(users));
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getById(req: Request, res: Response, next: NextFunction) {
+        debug('getById');
+        try {
+            const { id } = req.params;
+            const user = await this.repoUsers.readById(id);
+            res.json(this.makeResponse([user]));
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async create(req: Request, res: Response, next: NextFunction) {
         debug('create');
         try {
@@ -89,6 +113,60 @@ export class UsersController {
                     error: '',
                 },
             ]);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async update(req: Request, res: Response, next: NextFunction) {
+        debug('update');
+        try {
+            const { id } = req.params;
+            const newData = req.body;
+            delete newData.password;
+            delete newData.role;
+            const user = await this.repoUsers.update(id, newData);
+            res.json(this.makeResponse([user]));
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async setRole(req: Request, res: Response, next: NextFunction) {
+        debug('setRole');
+        try {
+            const { id } = req.params;
+            const newData = req.body;
+            if (!newData.role) {
+                throw new HttpError('Role is required', 400, 'Bad Request');
+            }
+            const user = await this.repoUsers.update(id, newData.role);
+            res.json(this.makeResponse([user]));
+        } catch (error) {
+            next(error);
+        }
+    }
+    async setPassword(req: Request, res: Response, next: NextFunction) {
+        debug('setPassword');
+        try {
+            const { id } = req.params;
+            const newData = req.body;
+            if (!newData.password) {
+                throw new HttpError('Password is required', 400, 'Bad Request');
+            }
+            const user = await this.repoUsers.update(id, newData.password);
+            res.json(this.makeResponse([user]));
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async delete(req: Request, res: Response, next: NextFunction) {
+        debug('delete');
+        try {
+            const { id } = req.params;
+            const user = await this.repoUsers.delete(id);
+            res.json(this.makeResponse([user]));
         } catch (error) {
             next(error);
         }
